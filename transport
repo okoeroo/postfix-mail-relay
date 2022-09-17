@@ -1,1 +1,3 @@
-cyberz.nl smtp:mail.koeroo.net:25
+cyberz.nl  smtp:mail.koeroo.net:25
+koeroo.net smtp:mail.koeroo.net:25
+koeroo.com smtp:mail.koeroo.net:25

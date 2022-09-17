@@ -41,11 +41,18 @@ smtp_tls_CApath=/etc/ssl/certs
 smtp_tls_security_level=may
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
+# Relay rules
+relay_domains = cyberz.nl koeroo.net koeroo.com
+
 # Transport relay
 transport_maps = hash:/etc/postfix/transport
 
+# Networks
+## mail.koeroo.net	A	86.83.8.123
+## mail.koeroo.net	AAAA	2a02:a464:e459:105:5054:ff:fe9c:1e6
+mynetworks = 86.83.8.123 [2a02:a464:e459:105:5054:ff:fe9c:1e6] 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
 # Other
-relay_domains = cyberz.nl
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 myhostname = smtp.koeroo.net
 alias_maps = hash:/etc/aliases
@@ -53,7 +60,6 @@ alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
 mydestination = $myhostname, localhost
 relayhost = 
-mynetworks = 86.83.8.123 [2a02:a464:e459:105:5054:ff:fe9c:1e6] 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
 recipient_delimiter = +
 # inet_interfaces = loopback-only
@@ -69,3 +75,6 @@ smtpd_helo_restrictions = reject_unknown_helo_hostname
 
 # Don't accept mail from domains that don't exist.
 smtpd_sender_restrictions = reject_unknown_sender_domain
+
+
+

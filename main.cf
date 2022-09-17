@@ -1,0 +1,71 @@
+smtpd_banner = $myhostname ESMTP $mail_name Koeroo
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+readme_directory = no
+
+# See http://www.postfix.org/COMPATIBILITY_README.html -- default to 2 on
+# fresh installs.
+compatibility_level = 2
+
+
+# TLS parameters
+tls_ssl_options = NO_RENEGOTIATION, NO_COMPRESSION
+tls_preempt_cipherlist = yes
+tls_high_cipherlist=ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-CAMELLIA256-SHA256:DHE-RSA-AES256-SHA256:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA
+
+smtp_tls_protocols =           !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
+smtp_tls_mandatory_protocols = !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
+#smtp_tls_mandatory_ciphers = high
+
+smtpd_use_tls = yes
+smtpd_tls_protocols =           !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
+smtpd_tls_mandatory_protocols = !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
+#smtpd_tls_mandatory_ciphers = high
+
+
+# Ontvangende kant
+smtpd_tls_cert_file=/etc/letsencrypt/live/smtp.koeroo.net/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/smtp.koeroo.net/privkey.pem
+### Safemail is one offending mail publisher to switch the MUST encrypt of for, sad
+#smtpd_tls_security_level = encrypt
+smtpd_tls_security_level=may
+
+# Verzendende kant
+smtp_tls_CApath=/etc/ssl/certs
+smtp_tls_security_level=may
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+# Transport relay
+transport_maps = hash:/etc/postfix/transport
+
+# Other
+relay_domains = cyberz.nl
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+myhostname = smtp.koeroo.net
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = $myhostname, localhost
+relayhost = 
+mynetworks = 86.83.8.123 [2a02:a464:e459:105:5054:ff:fe9c:1e6] 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+# inet_interfaces = loopback-only
+inet_interfaces = all
+inet_protocols = all
+
+
+### Security
+
+# Don't talk to mail systems that don't know their own hostname.
+# With Postfix < 2.3, specify reject_unknown_hostname.
+smtpd_helo_restrictions = reject_unknown_helo_hostname
+
+# Don't accept mail from domains that don't exist.
+smtpd_sender_restrictions = reject_unknown_sender_domain

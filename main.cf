@@ -17,32 +17,35 @@ compatibility_level = 2
 # TLS parameters
 tls_ssl_options = NO_RENEGOTIATION, NO_COMPRESSION
 tls_preempt_cipherlist = yes
-tls_high_cipherlist=ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-CAMELLIA256-SHA256:DHE-RSA-AES256-SHA256:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA
+tls_high_cipherlist=ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-CAMELLIA256-SHA256:ECDHE-RSA-AES256-SHA
 
-smtp_tls_protocols =           !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
-smtp_tls_mandatory_protocols = !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
-#smtp_tls_mandatory_ciphers = high
 
+######### Ontvangende kant
 smtpd_use_tls = yes
 smtpd_tls_protocols =           !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
 smtpd_tls_mandatory_protocols = !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
 #smtpd_tls_mandatory_ciphers = high
 
-
-# Ontvangende kant
 smtpd_tls_cert_file=/etc/letsencrypt/live/smtp.koeroo.net/fullchain.pem
 smtpd_tls_key_file=/etc/letsencrypt/live/smtp.koeroo.net/privkey.pem
 ### Safemail is one offending mail publisher to switch the MUST encrypt of for, sad
 #smtpd_tls_security_level = encrypt
 smtpd_tls_security_level=may
+smtpd_tls_exclude_ciphers = aNULL, DHE, AES256-GCM-SHA384, AES256-SHA256
 
-# Verzendende kant
+
+######### Verzendende kant
+smtp_tls_protocols =           !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
+smtp_tls_mandatory_protocols = !TLSv1.1, !TLSv1, !SSLv3, !SSLv2
+#smtp_tls_mandatory_ciphers = high
+
 smtp_tls_CApath=/etc/ssl/certs
 smtp_tls_security_level=may
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
-# Relay rules
-relay_domains = cyberz.nl koeroo.net koeroo.com
+
+######### Relay rules
+relay_domains = cyberz.nl koeroo.net koeroo.com celebritiesspotted.com srsbsns.nl srsbznz.nl
 
 # Transport relay
 transport_maps = hash:/etc/postfix/transport

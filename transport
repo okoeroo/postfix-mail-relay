@@ -1,3 +1,6 @@
-cyberz.nl  smtp:mail.koeroo.net:25
-koeroo.net smtp:mail.koeroo.net:25
-koeroo.com smtp:mail.koeroo.net:25
+cyberz.nl  		smtp:mail.koeroo.net:25
+koeroo.net 		smtp:mail.koeroo.net:25
+koeroo.com 		smtp:mail.koeroo.net:25
+celebritiesspotted.com 	smtp:mail.koeroo.net:25
+srsbsns.nl 		smtp:mail.koeroo.net:25
+srsbznz.nl 		smtp:mail.koeroo.net:25
